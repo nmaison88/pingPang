@@ -8,37 +8,37 @@ export default class ScoreboardView {
   ) {
     this.root = root;
     this.root.innerHTML = `
-    <div>
-    <section class="wrapper">
-    <div class="top">Ping Pang</div>
-    <div class="bottom" aria-hidden="true">Ping Pang</div>
-    </section>
-    <div class="scoreboard">
-      <div class="scoreboard__name scoreboard__name--one">${playerOneName}</div>
-      <div class="scoreboard__name scoreboard__name--two">${playerTwoName}</div>
-      <div class="scoreboard__score" data-for-player="one">0</div>
-      <div class="scoreboard__score" data-for-player="two">0</div>
-      <div class="scoreboard__controls" data-for-player="one">
-        <button class="scoreboard__control-button">-</button>
-        <button class="scoreboard__control-button">+</button>
-      </div>
-      <div class="scoreboard__controls" data-for-player="two">
-        <button class="scoreboard__control-button">-</button>
-        <button class="scoreboard__control-button">+</button>
-      </div>
-      <p class="serve"> first serve</p>
-      <div class="scoreboard__controls">
+    <div class="container">
+      <section class="wrapper">
+        <div class="top">Ping Pang</div>
+        <div class="bottom" aria-hidden="true">Ping Pang</div>
+      </section>
+      <div class="scoreboard">
+        <div class="scoreboard__name scoreboard__name--one">${playerOneName}</div>
+        <div class="scoreboard__name scoreboard__name--two">${playerTwoName}</div>
+        <div class="scoreboard__score" data-for-player="one">0</div>
+        <div class="scoreboard__score" data-for-player="two">0</div>
+        <div class="scoreboard__controls" data-for-player="one">
+          <button class="scoreboard__control-button">-</button>
+          <button class="scoreboard__control-button">+</button>
+        </div>
+        <div class="scoreboard__controls" data-for-player="two">
+          <button class="scoreboard__control-button">-</button>
+          <button class="scoreboard__control-button">+</button>
+        </div>
+        <div>
+          <div class="serve"> first serve</div>
+          <div class="scoreboard__controls">
+          <button class="reset button" hidden>Reset</button>
+          </div>
+        </div>
   
-      <button class="reset" hidden>Play Again</button>
       </div>
-  
-    </div>
-    <h3 class="word" hidden></h3>
-    <section class="wrapper">
-      <div class="top">deathmatch</div>
-      <div class="bottom" aria-hidden="true">deathmatch</div>
-    </section>
-        
+      <h3 class="word" hidden></h3>
+      <section class="wrapper">
+        <div class="top">deathmatch</div>
+        <div class="bottom" aria-hidden="true">deathmatch</div>
+      </section>
     </div>
 		`;
 
