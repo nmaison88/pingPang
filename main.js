@@ -6,6 +6,7 @@ const root = document.querySelector('#app');
 let servingPlayer = 0;
 document.onkeypress = function (e) {
   e = e || window.event;
+  // any key restarts
   if (playerOneScore >= 21 || playerTwoScore >= 21) {
     if (view.checkIfWinnerStillBoasting() === true) {
       view.resetWinner();
@@ -13,15 +14,42 @@ document.onkeypress = function (e) {
       servingPlayer = 0;
       playerOneScore = 0;
       playerTwoScore = 0;
-      new Audio('player1.wav').play();
-      setTimeout(() => {
-        new Audio('player2.wav').play();
-        setTimeout(() => {
-          new Audio('321.wav').play();
-        }, 1500);
-      }, 1000);
+      new Audio('321.wav').play();
     }
     view.update(playerOneScore, playerTwoScore);
+  }
+  const key1 = 49;
+  if (e.keyCode === key1) {
+    view.keypressCatch('one', 'plus');
+  }
+  const key2 = 50;
+  if (e.keyCode === key2) {
+    view.keypressCatch('two', 'plus');
+  }
+
+  // pressing shift and 1 subtracts point from player 1
+  const key1Shift = 33;
+  if (e.keyCode === key1Shift) {
+    view.keypressCatch('one', 'minus');
+  }
+
+  // pressing shift and 2 subtracts point from player 2
+  const key2Shift = 64;
+  if (e.keyCode === key2Shift) {
+    view.keypressCatch('two', 'minus');
+  }
+
+  // pressing 3 resets the board
+  const key3 = 51;
+  if (e.keyCode === key3) {
+    view.resetWinner();
+    view.updateServer(1);
+    servingPlayer = 0;
+    playerOneScore = 0;
+    playerTwoScore = 0;
+    view.update(playerOneScore, playerTwoScore);
+
+    new Audio('321.wav').play();
   }
 };
 const view = new ScoreboardView(
@@ -30,8 +58,10 @@ const view = new ScoreboardView(
   'Player Two',
   (player, direction) => {
     const difference = direction === 'minus' ? -1 : 1;
-    view.updateServer(servingPlayer);
-    servingPlayer++;
+    if (direction !== 'minus') {
+      view.updateServer(servingPlayer);
+      servingPlayer++;
+    }
     let audio;
 
     if (player === 'one') {
@@ -41,7 +71,10 @@ const view = new ScoreboardView(
       playerTwoScore = Math.max(playerTwoScore + difference, 0);
       audio = new Audio('player2.wav');
     }
-    audio.play();
+    // only play audio on adding points
+    if (direction === 'plus') {
+      audio.play();
+    }
 
     // winning point reached
     if (playerOneScore >= 21 || playerTwoScore >= 21) {
@@ -83,12 +116,6 @@ const view = new ScoreboardView(
     playerOneScore = 0;
     playerTwoScore = 0;
     view.update(playerOneScore, playerTwoScore);
-    new Audio('player1.wav').play();
-    setTimeout(() => {
-      new Audio('player2.wav').play();
-      setTimeout(() => {
-        new Audio('321.wav').play();
-      }, 1500);
-    }, 1000);
+    new Audio('321.wav').play();
   }
 );

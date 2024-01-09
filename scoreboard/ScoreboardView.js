@@ -6,6 +6,7 @@ export default class ScoreboardView {
     onControlButtonClick,
     resetFunction
   ) {
+    this.onControlButtonClick = onControlButtonClick;
     this.root = root;
     this.root.innerHTML = `
     <div class="container">
@@ -61,7 +62,10 @@ export default class ScoreboardView {
       resetFunction();
     });
   }
-
+  keypressCatch(player, direction) {
+    console.log('keypressCatch hit', player, direction);
+    this.onControlButtonClick(player, direction);
+  }
   update(playerOneScore, playerTwoScore) {
     this.root.querySelector(
       ".scoreboard__score[data-for-player='one']"
