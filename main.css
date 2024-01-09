@@ -1,7 +1,7 @@
 :root {
-	--background-color: black;
-	--text-color: hsl(0, 0%, 100%);
-  }
+  --background-color: black;
+  --text-color: hsl(0, 0%, 100%);
+}
 .scoreboard {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -27,14 +27,20 @@
 
 .scoreboard__name--one {
   color: #009578;
+  font-size: 3em;
+
 }
 
 .scoreboard__name--two {
   color: #2d0095;
+  font-size: 3em;
+
 }
 
 .scoreboard__score {
-  font-size: 2em;
+  font-size: 10em;
+  color: #d7cbf3;
+
 }
 
 .scoreboard__controls {
@@ -79,9 +85,9 @@
   display: grid;
   place-content: center;
   background-color: var(--background-color);
-  min-height: 20vh;
+  min-height: 8vh;
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.5rem, 1rem + 18vw, 15rem);
+  font-size: 10em;;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-color);
@@ -103,4 +109,6 @@
   transform: translateX(-0.02em);
 }
 
-
+body {
+  background: -webkit-linear-gradient(177deg, black 53%, red 65%);
+}

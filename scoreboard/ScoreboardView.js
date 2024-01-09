@@ -1,31 +1,45 @@
 export default class ScoreboardView {
-  constructor(root, playerOneName, playerTwoName, onControlButtonClick) {
+  constructor(
+    root,
+    playerOneName,
+    playerTwoName,
+    onControlButtonClick,
+    resetFunction
+  ) {
     this.root = root;
     this.root.innerHTML = `
-	<div >
-  <section class="wrapper">
-  <div class="top">Ping Pang</div>
-  <div class="bottom" aria-hidden="true">Ping Pang</div>
-</section>
-	<div class="scoreboard">
-
-				<div class="scoreboard__name scoreboard__name--one">${playerOneName}</div>
-				<div class="scoreboard__name scoreboard__name--two">${playerTwoName}</div>
-				<div class="scoreboard__score" data-for-player="one">0</div>
-				<div class="scoreboard__score" data-for-player="two">0</div>
-				<div class="scoreboard__controls" data-for-player="one">
-					<button class="scoreboard__control-button">-</button>
-					<button class="scoreboard__control-button">+</button>
-				</div>
-				<div class="scoreboard__controls" data-for-player="two">
-					<button class="scoreboard__control-button">-</button>
-					<button class="scoreboard__control-button">+</button>
-				</div>
-        <p class="serve"> first serve</p>
-				</div>
-				<div class="word" hidden></div>
-
-			</div>
+    <div>
+    <section class="wrapper">
+    <div class="top">Ping Pang</div>
+    <div class="bottom" aria-hidden="true">Ping Pang</div>
+    </section>
+    <div class="scoreboard">
+      <div class="scoreboard__name scoreboard__name--one">${playerOneName}</div>
+      <div class="scoreboard__name scoreboard__name--two">${playerTwoName}</div>
+      <div class="scoreboard__score" data-for-player="one">0</div>
+      <div class="scoreboard__score" data-for-player="two">0</div>
+      <div class="scoreboard__controls" data-for-player="one">
+        <button class="scoreboard__control-button">-</button>
+        <button class="scoreboard__control-button">+</button>
+      </div>
+      <div class="scoreboard__controls" data-for-player="two">
+        <button class="scoreboard__control-button">-</button>
+        <button class="scoreboard__control-button">+</button>
+      </div>
+      <p class="serve"> first serve</p>
+      <div class="scoreboard__controls">
+  
+      <button class="reset" hidden>Play Again</button>
+      </div>
+  
+    </div>
+    <h3 class="word" hidden></h3>
+    <section class="wrapper">
+      <div class="top">deathmatch</div>
+      <div class="bottom" aria-hidden="true">deathmatch</div>
+    </section>
+        
+    </div>
 		`;
 
     this.root
@@ -40,6 +54,12 @@ export default class ScoreboardView {
           onControlButtonClick(player, direction);
         });
       });
+
+    const resetButton = this.root.querySelector('.reset');
+
+    resetButton.addEventListener('click', (event) => {
+      resetFunction();
+    });
   }
 
   update(playerOneScore, playerTwoScore) {
@@ -52,7 +72,6 @@ export default class ScoreboardView {
   }
 
   wordflick(player) {
-
     let winningPlayer = player == 1 ? 'Player One' : 'Player Two';
     let LosingPlayer = player == 2 ? 'Player One' : 'Player Two';
     let words = [
@@ -96,9 +115,9 @@ export default class ScoreboardView {
         }
       }
       this.updateWord(part);
-	  if(!this.checkIfWinnerStillBoasting()){
-		clearInterval(wordInterval);
-	  }
+      if (!this.checkIfWinnerStillBoasting()) {
+        clearInterval(wordInterval);
+      }
     }, speed);
   }
   updateWord(part) {
@@ -109,14 +128,33 @@ export default class ScoreboardView {
   }
   resetWinner() {
     this.root.querySelector('.word').hidden = true;
+    this.resetCOunters();
+  }
+  disableCounters() {
+    this.root
+      .querySelectorAll('.scoreboard__control-button')
+      .forEach((button) => {
+        button.disabled = true;
+        button.hidden = true;
+      });
+    this.root.querySelector('.reset').hidden = false;
+  }
+  resetCOunters() {
+    this.root
+      .querySelectorAll('.scoreboard__control-button')
+      .forEach((button) => {
+        button.disabled = false;
+        button.hidden = false;
+      });
+    this.root.querySelector('.reset').hidden = true;
   }
   updateServer(position) {
     let serve;
-  
-    if(Math.abs(position % 2) == 1){
-      serve = 'first'
-    }else{
-      serve = 'second'
+
+    if (Math.abs(position % 2) == 1) {
+      serve = 'first';
+    } else {
+      serve = 'second';
     }
     this.root.querySelector('.serve').textContent = `${serve} serve`;
   }
