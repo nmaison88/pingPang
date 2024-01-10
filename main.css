@@ -213,7 +213,7 @@ body {
 }
 
 
-@media screen and (max-width: 950px) {
+/* @media screen and (max-width: 950px) {
 	.wrapper {
     min-height: 5vh;
     font-family: 'Oswald', sans-serif;
@@ -274,4 +274,4 @@ body {
   width:100%;
   min-height: 80vh;
 }
-}
+} */
