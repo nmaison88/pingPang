@@ -83,6 +83,13 @@ const view = new ScoreboardView(
     if (playerOneScore === 2 && playerTwoScore === 2) {
       playSound('twah', player);
     }
+    // five0
+    if (
+      (playerOneScore === 5 && playerTwoScore === 0) ||
+      (playerOneScore === 0 && playerTwoScore === 5)
+    ) {
+      playSound('five0', player);
+    }
     // crazy 8's
     if (playerOneScore === 8 && playerTwoScore === 8) {
       playSound('crazy8s', player);
@@ -184,6 +191,11 @@ const playSound = (sound, player = 'one') => {
           new Audio('twah macho.wav').play();
         }, 1000);
         break;
+      case 'five0':
+        setTimeout(() => {
+          new Audio('5 0 macho.wav').play();
+        }, 1000);
+        break;
       case 'nines':
         setTimeout(() => {
           new Audio('nine macho.wav').play();
@@ -227,6 +239,11 @@ const playSound = (sound, player = 'one') => {
       case 'twah':
         setTimeout(() => {
           new Audio('tike twah.wav').play();
+        }, 1000);
+        break;
+      case 'five0':
+        setTimeout(() => {
+          new Audio('tike 5 0.wav').play();
         }, 1000);
         break;
       case 'nines':
