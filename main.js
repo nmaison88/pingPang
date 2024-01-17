@@ -1,18 +1,20 @@
 import ScoreboardView from './scoreboard/ScoreboardView.js';
 let playerOneScore = 0;
 let playerTwoScore = 0;
+let servingPlayer = null;
 const root = document.querySelector('#app');
-let servingPlayer = 0;
+let serve = null; //we start with 0 but whoever wins service, is selected as serving player
 document.onkeypress = function (e) {
   e = e || window.event;
   // any key restarts
   if (playerOneScore >= 21 || playerTwoScore >= 21) {
     if (view.checkIfWinnerStillBoasting() === true) {
       view.resetWinner();
-      view.updateServer(1);
-      servingPlayer = 0;
+      serve = null;
       playerOneScore = 0;
       playerTwoScore = 0;
+      servingPlayer = null
+      view.updateServer(serve, null);
       playSound('321');
     }
     view.update(playerOneScore, playerTwoScore);
@@ -42,10 +44,11 @@ document.onkeypress = function (e) {
   const key3 = 51;
   if (e.keyCode === key3) {
     view.resetWinner();
-    view.updateServer(1);
-    servingPlayer = 0;
+    servingPlayer = null
+    serve = 'first';
     playerOneScore = 0;
     playerTwoScore = 0;
+    view.updateServer(serve, servingPlayer);
     view.update(playerOneScore, playerTwoScore);
 
     playSound('321');
@@ -56,11 +59,26 @@ const view = new ScoreboardView(
   'Player One',
   'Player Two',
   (player, direction) => {
-    const difference = direction === 'minus' ? -1 : 1;
-    if (direction !== 'minus') {
-      view.updateServer(servingPlayer);
-      servingPlayer++;
+    // assign service to who ever won the first service
+    if (!serve && !servingPlayer) {
+      servingPlayer = player;
+      serve = 'first';
+      view.updateServer(serve, servingPlayer);
+      return;
     }
+    if (serve === 'first') {
+      serve = 'second';
+    } else if (serve === 'second') {
+      serve = 'first';
+      if (direction !== 'minus') {
+        servingPlayer = servingPlayer === 'one' ? 'two' : 'one';
+      }
+    }
+
+    view.updateServer(serve, servingPlayer);
+
+    const difference = direction === 'minus' ? -1 : 1;
+
     let audio;
 
     if (player === 'one') {
@@ -120,6 +138,7 @@ const view = new ScoreboardView(
       }
       // winning point reached
       else {
+        view.resetServe()
         const winningPlayer = playerOneScore === 21 ? 1 : 2;
         // wait for player x sound to finish
         setTimeout(() => {
@@ -130,7 +149,7 @@ const view = new ScoreboardView(
         view.wordflick(winningPlayer);
         view.disableCounters();
       }
-      servingPlayer = 0;
+      serve = 'first';
     }
     // sudden death!
     if (playerOneScore === 20 && playerTwoScore === 20) {
@@ -143,10 +162,10 @@ const view = new ScoreboardView(
   },
   () => {
     view.resetWinner();
-    view.updateServer(1);
-    servingPlayer = 0;
+    serve = 'first';
     playerOneScore = 0;
     playerTwoScore = 0;
+    view.updateServer(serve, servingPlayer);
     view.update(playerOneScore, playerTwoScore);
     playSound('321');
   }
