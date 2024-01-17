@@ -11,6 +11,7 @@ export default class ScoreboardView {
     this.server = '';
     this.root.innerHTML = `
     <div class="container">
+      <div id="bg-start" class="bg-start"><div class="starter-text">To start Game, Enter point for which player is serving first</div></div>
       <div id="bg-left" class="bg-left" hidden></div>
       <div id="bg-right" class="bg-right" hidden></div>    
       <section class="wrapper">
@@ -95,7 +96,7 @@ export default class ScoreboardView {
       ".scoreboard__score[data-for-player='two']"
     ).textContent = playerTwoScore;
   }
-  resetServe(){
+  resetServe() {
     document.getElementById('bg-left').hidden = true;
     document.getElementById('bg-right').hidden = true;
   }
@@ -178,18 +179,20 @@ export default class ScoreboardView {
   }
   updateServer(serve, servingPlayer) {
     if (serve && servingPlayer) {
+      document.getElementById('bg-start').hidden = true;
       this.root.querySelector(
         '.serve'
       ).textContent = ` Player ${servingPlayer} ${serve} Serve`;
       if (servingPlayer === 'one') {
         document.getElementById('bg-left').hidden = false;
         document.getElementById('bg-right').hidden = true;
-      } else if(servingPlayer === 'two'){
+      } else if (servingPlayer === 'two') {
         document.getElementById('bg-left').hidden = true;
         document.getElementById('bg-right').hidden = false;
       }
       return;
     }
+    document.getElementById('bg-start').hidden = false;
     this.root.querySelector('.serve').textContent = ``;
   }
   checkIfWinnerStillBoasting() {
