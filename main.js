@@ -44,14 +44,15 @@ document.onkeypress = function (e) {
   const key3 = 51;
   if (e.keyCode === key3) {
     view.resetWinner();
-    servingPlayer = null
-    serve = 'first';
+    serve = null;
     playerOneScore = 0;
     playerTwoScore = 0;
+    servingPlayer = null
+    view.resetServe()
     view.updateServer(serve, servingPlayer);
     view.update(playerOneScore, playerTwoScore);
-
     playSound('321');
+
   }
 };
 const view = new ScoreboardView(
@@ -162,9 +163,11 @@ const view = new ScoreboardView(
   },
   () => {
     view.resetWinner();
-    serve = 'first';
+    serve = null;
     playerOneScore = 0;
     playerTwoScore = 0;
+    servingPlayer = null
+
     view.updateServer(serve, servingPlayer);
     view.update(playerOneScore, playerTwoScore);
     playSound('321');
